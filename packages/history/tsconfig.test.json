@@ -1,0 +1,17 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES5",
+    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "noImplicitAny": true,
+    "noImplicitThis": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "example"
+  ]
+}

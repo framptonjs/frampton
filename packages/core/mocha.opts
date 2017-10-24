@@ -1,0 +1,5 @@
+--require ts-node/register
+--globals window,global
+--reporter spec
+--full-trace
+src//tests/index.ts

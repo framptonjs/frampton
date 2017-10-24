@@ -1,0 +1,14 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs",
+    "rootDir": ".",
+    "outDir": "./examples",
+    "noImplicitAny": true,
+    "noUnusedLocals": false
+  },
+  "files": [
+    "./example.ts"
+  ]
+}

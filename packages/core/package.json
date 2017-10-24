@@ -1,0 +1,47 @@
+{
+  "name": "@frampton/core",
+  "version": "0.0.12",
+  "description": "",
+  "main": "dist/main/bundles/core.js",
+  "module": "dist/main/index.js",
+  "types": "dist/main/index.d.ts",
+  "scripts": {
+    "lint": "tslint --fix src/**/*.ts",
+    "clean": "rm -rf dist/",
+    "prebuild": "npm run clean",
+    "build": "npm run lint && tsc -p tsconfig.json && npm run bundle",
+    "bundle": "webpack --config webpack.config.js",
+    "test": "npm run lint && mocha --opts mocha.opts"
+  },
+  "author": "Kevin Greene <hightimesteddy@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/framptonjs/frampton"
+  },
+  "files": [
+    "dist/main/"
+  ],
+  "keywords": [
+    "monads",
+    "algebraic",
+    "event stream",
+    "functional",
+    "functional reactive"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.39",
+    "@types/sinon": "^2.1.2",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "sinon": "^2.1.0",
+    "ts-node": "^3.3.0",
+    "tslint": "^5.8.0",
+    "typescript": "^2.5.3",
+    "webpack": "^2.4.1"
+  }
+}

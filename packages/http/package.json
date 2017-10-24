@@ -1,0 +1,53 @@
+{
+  "name": "@frampton/http",
+  "version": "0.0.13",
+  "description": "",
+  "main": "./dist/bundles/http.js",
+  "module": "./dist/main/index.js",
+  "typings": "./dist/main/index.d.ts",
+  "scripts": {
+    "build": "rm -rf ./dist/; tsc -p ./tsconfig.json; webpack --config webpack.config.js;",
+    "build:example": "rm -rf ./example/; tsc -p ./tsconfig.example.json; webpack --config webpack.example.config.js;",
+    "build:test": "rm -rf ./testing/; tsc -p ./tsconfig.test.json; webpack --config webpack.test.config.js;",
+    "build:run": "npm run build; node ./dist/bundles/frampton-dom.js",
+    "test": "npm run build:test; karma start;"
+  },
+  "author": "Kevin Greene <hightimesteddy@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/framptonjs/http.git"
+  },
+  "files": [
+    "dist/main/",
+    "dist/bundles/"
+  ],
+  "keywords": [
+    "monads",
+    "algebraic",
+    "event stream",
+    "functional",
+    "functional reactive"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "3.4.34",
+    "@types/mocha": "2.2.39",
+    "babel-core": "6.24.1",
+    "babel-loader": "7.0.0",
+    "babel-preset-es2015": "6.24.1",
+    "chai": "^3.5.0",
+    "karma": "1.6.0",
+    "karma-mocha": "1.3.0",
+    "karma-phantomjs-launcher": "1.0.4",
+    "mocha": "^3.2.0",
+    "tslint": "^5.8.0",
+    "typescript": "^2.2.2",
+    "webpack": "^2.2.1"
+  },
+  "dependencies": {
+    "@frampton/core": "~0.0.12",
+    "@frampton/dom": "~0.0.12",
+    "@frampton/events": "~0.0.12",
+    "@frampton/history": "~0.0.12"
+  }
+}

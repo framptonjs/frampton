@@ -1,0 +1,31 @@
+{
+  "name": "frampton",
+  "version": "0.0.12",
+  "description": "A library for building type-safe functional applications in JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf **/node_modules **/dist",
+    "init": "lerna init",
+    "postinstall": "npm run bootstrap",
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
+    "lint": "lerna run lint",
+    "test": "lerna exec -- npm test",
+    "release:bump": "lerna publish --cd-version patch --skip-npm --yes --force-publish=*",
+    "release:patch": "lerna publish --cd-version patch --skip-npm --yes --force-publish=*&& npm run release:push",
+    "release:minor": "lerna publish --cd-version minor --skip-npm --yes --force-publish=*&& npm run release:push",
+    "release:major": "lerna publish --cd-version major --skip-npm --yes --force-publish=*&& npm run release:push",
+    "release:push": "git push --follow-tags",
+    "release:publish": "lerna exec 'npm publish --access public'"
+  },
+  "author": "Kevin Greene <hightimesteddy@gmail.com>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/framptonjs/frampton"
+  },
+  "devDependencies": {
+    "lerna": "^2.4.0",
+    "rimraf": "^2.6.2"
+  }
+}
