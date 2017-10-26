@@ -29,39 +29,38 @@ function filterAttrs<T>(predicate: EventPredicate<T>, attrs: Attributes<T>): Att
 }
 
 
-export const filter: <T>(predicate: EventPredicate<T>, node: Html<T>) => Html<T> =
-  cachedNode(function <T>(predicate: EventPredicate<T>, node: Html<T>): Html<T> {
-    switch (node.type) {
-      case NodeType.NODE:
-        return {
-          type: NodeType.NODE,
-          tag: node.tag,
-          attrs: filterAttrs(predicate, node.attrs),
-          children: node.children.map((child: Html<T>): Html<T> => {
-            return filter(predicate, child);
-          }),
-          domNode: node.domNode
-        };
+export function filter<T>(predicate: EventPredicate<T>, node: Html<T>): Html<T> {
+  switch (node.type) {
+    case NodeType.NODE:
+      return {
+        type: NodeType.NODE,
+        tag: node.tag,
+        attrs: filterAttrs(predicate, node.attrs),
+        children: node.children.map((child: Html<T>): Html<T> => {
+          return filter<T>(predicate, child);
+        }),
+        domNode: node.domNode
+      };
 
-      case NodeType.KEYED_NODE:
-        return {
-          type: NodeType.KEYED_NODE,
-          tag: node.tag,
-          attrs: filterAttrs(predicate, node.attrs),
-          children: node.children.map((child: VKeyedChild<T>): VKeyedChild<T> => {
-            return <VKeyedChild<T>>filter(predicate, child);
-          }),
-          domNode: node.domNode
-        };
+    case NodeType.KEYED_NODE:
+      return {
+        type: NodeType.KEYED_NODE,
+        tag: node.tag,
+        attrs: filterAttrs(predicate, node.attrs),
+        children: node.children.map((child: VKeyedChild<T>): VKeyedChild<T> => {
+          return <VKeyedChild<T>>filter(predicate, child);
+        }),
+        domNode: node.domNode
+      };
 
-      case NodeType.KEYED_CHILD:
-        return {
-          type: NodeType.KEYED_CHILD,
-          key: node.key,
-          node: <RootNode<T>>filter(predicate, node.node)
-        };
+    case NodeType.KEYED_CHILD:
+      return {
+        type: NodeType.KEYED_CHILD,
+        key: node.key,
+        node: <RootNode<T>>filter(predicate, node.node)
+      };
 
-      default:
-        return node;
-    }
-  });
+    default:
+      return node;
+  }
+}

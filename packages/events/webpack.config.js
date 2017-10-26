@@ -26,8 +26,8 @@ module.exports = {
     "@frampton/core": {
       commonjs2: "@frampton/core"
     },
-    "@frampton/style": {
-      commonjs2: "@frampton/style"
+    "@frampton/dom": {
+      commonjs2: "@frampton/dom"
     }
   },
 

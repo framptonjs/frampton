@@ -1,8 +1,8 @@
-import { Task } from '@frampton/core'
+import { Task } from '@frampton/core';
 import { makeRequest } from './request';
-import urlBuilder from './utils/url';
-import send from './send';
-import defaultSettings from './utils/default-settings';
+import { send } from './send';
+import { defaultSettings } from './utils/default-settings';
+import { urlBuilder } from './utils/url';
 
 /**
  * Returns a task that will perform an HTTP GET
@@ -14,6 +14,6 @@ import defaultSettings from './utils/default-settings';
  * @param {Object} [data] Data to send with request. Is encoded and appended to url.
  * @returns {Frampton.Data.Task} A Task of a Response
  */
-export default function get_request(url: string, data: any) {
+export function getRequest(url: string, data: any = null) {
   return send(defaultSettings, makeRequest(urlBuilder(url, data)));
 }

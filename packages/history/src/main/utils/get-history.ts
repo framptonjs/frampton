@@ -1,4 +1,4 @@
-import { Env } from '@frampton/core';
+import { FRAMPTON_ENV } from '@frampton/core';
 import getLocation from './get-location';
 
 
@@ -42,7 +42,7 @@ function createMockHistory(): History {
 
 
 export default function history_api(): History {
-  if (!window || Env.isTest()) {
+  if (!window || FRAMPTON_ENV.isTest()) {
     return createMockHistory();
   } else {
     return window.history;

@@ -1,9 +1,9 @@
-import post from '../main/post';
 import { assert } from 'chai';
+import { postRequest } from '../main/';
 
-describe('post', function() {
-  it('should return a task of a response', function(done) {
-    const req = post('test', {});
+describe('postRequest', () => {
+  it('should return a task of a response', (done) => {
+    const req = postRequest('test', {});
 
     req.run({
       reject(err: any) {
@@ -15,7 +15,7 @@ describe('post', function() {
           assert.ok(true);
           done();
         }
-      }
+      },
     });
   });
 });

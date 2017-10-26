@@ -29,39 +29,38 @@ function debounceAttrs<T>(delay: number, attrs: Attributes<T>): Attributes<T> {
 }
 
 
-export const debounce: <T>(delay: number, node: Html<T>) => Html<T> =
-  cachedNode(function <T>(delay: number, node: Html<T>): Html<T> {
-    switch (node.type) {
-      case NodeType.NODE:
-        return {
-          type: NodeType.NODE,
-          tag: node.tag,
-          attrs: debounceAttrs(delay, node.attrs),
-          children: node.children.map((child: Html<T>): Html<T> => {
-            return debounce(delay, child);
-          }),
-          domNode: node.domNode
-        };
+export function debounce<T>(delay: number, node: Html<T>): Html<T> {
+  switch (node.type) {
+    case NodeType.NODE:
+      return {
+        type: NodeType.NODE,
+        tag: node.tag,
+        attrs: debounceAttrs(delay, node.attrs),
+        children: node.children.map((child: Html<T>): Html<T> => {
+          return debounce(delay, child);
+        }),
+        domNode: node.domNode
+      };
 
-      case NodeType.KEYED_NODE:
-        return {
-          type: NodeType.KEYED_NODE,
-          tag: node.tag,
-          attrs: debounceAttrs(delay, node.attrs),
-          children: node.children.map((child: VKeyedChild<T>): VKeyedChild<T> => {
-            return <VKeyedChild<T>>debounce(delay, child);
-          }),
-          domNode: node.domNode
-        };
+    case NodeType.KEYED_NODE:
+      return {
+        type: NodeType.KEYED_NODE,
+        tag: node.tag,
+        attrs: debounceAttrs(delay, node.attrs),
+        children: node.children.map((child: VKeyedChild<T>): VKeyedChild<T> => {
+          return <VKeyedChild<T>>debounce(delay, child);
+        }),
+        domNode: node.domNode
+      };
 
-      case NodeType.KEYED_CHILD:
-        return {
-          type: NodeType.KEYED_CHILD,
-          key: node.key,
-          node: <RootNode<T>>debounce(delay, node.node)
-        };
+    case NodeType.KEYED_CHILD:
+      return {
+        type: NodeType.KEYED_CHILD,
+        key: node.key,
+        node: <RootNode<T>>debounce(delay, node.node)
+      };
 
-      default:
-        return node;
-    }
-  });
+    default:
+      return node;
+  }
+}

@@ -1,8 +1,16 @@
+process.env.CHROME_BIN = require('puppeteer').executablePath()
+
 module.exports = function(config) {
   config.set({
-    frameworks: [ 'mocha' ],
+    port: 9879,
 
-    browsers: [ 'PhantomJS' ],
+    frameworks: [
+      'mocha'
+    ],
+
+    browsers: [
+      'ChromeHeadless'
+    ],
 
     files: [
       './dist/tests/globals.js',
@@ -13,14 +21,9 @@ module.exports = function(config) {
 
     plugins: [
       'karma-mocha',
-      'karma-phantomjs-launcher'
+      'karma-chrome-launcher'
     ],
 
     //logLevel: config.LOG_DEBUG,
-
-    phantomjsLauncher: {
-      // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
-      exitOnResourceError: true
-    }
   })
 }

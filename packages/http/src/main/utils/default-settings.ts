@@ -1,3 +1,3 @@
-export default Object.freeze({
-  timeout : (30 * 1000)
+export const defaultSettings = Object.freeze({
+  timeout: (30 * 1000)
 });

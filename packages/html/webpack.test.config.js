@@ -3,7 +3,7 @@ const { resolve } = require('path');
 module.exports = {
 
   entry: {
-    'dom.spec': './dist/tests/index.js'
+    'html.spec': './dist/tests/index.js'
   },
 
   output: {

@@ -1,5 +1,5 @@
 import { curry, Curried2Result } from '@frampton/core';
-import queryString from './query-string';
+import { queryString } from './query-string';
 
 /**
  * url_builder :: String -> Object -> String
@@ -11,7 +11,7 @@ import queryString from './query-string';
  * @param {Object} args
  * @returns {String}
  */
-export default curry(function url_builder(domain: string, args: Array<string>): string {
+export const urlBuilder = curry((domain: string, args: Array<string>): string => {
   if (!args) return domain;
   return domain + '?' + queryString(args);
 });

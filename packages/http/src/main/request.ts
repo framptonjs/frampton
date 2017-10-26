@@ -1,27 +1,8 @@
-export type RequestMethod
-  = 'GET'
-  | 'POST'
-  | 'PUT'
-  | 'DELETE'
-  | 'CONNECT'
-  | 'OPTIONS'
-  | 'TRACE'
-  | 'PATCH';
-
-
-export interface RequestHeaders {
-  [name: string]: string;
-}
-
-
-export interface Request {
-  url: string;
-  timestamp: number;
-  method: RequestMethod;
-  body: any;
-  headers: RequestHeaders;
-}
-
+import {
+  Request,
+  RequestHeaders,
+  RequestMethod,
+} from './types';
 
 /**
  * @name Request
@@ -37,13 +18,13 @@ export function makeRequest(
   url: string,
   method: RequestMethod = 'GET',
   data: any = null,
-  headers: RequestHeaders = {}
+  headers: RequestHeaders = {},
 ): Request {
   return {
-    url: url,
+    url,
     timestamp: Date.now(),
-    method: method,
+    method,
     body: data,
-    headers: headers
+    headers,
   };
 }

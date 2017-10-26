@@ -8,13 +8,14 @@
   "scripts": {
     "lint": "tslint --fix src/**/*.ts",
     "clean": "rm -rf dist/",
-    "build": "npm run clean && npm run lint && tsc -p ./tsconfig.json && webpack --config webpack.config.js",
-    "build:test": "npm run clean && tsc -p ./tsconfig.test.json && webpack --config webpack.test.config.js",
-    "test": "npm run lint && npm run build:test && karma start"
+    "prebuild": "npm run clean && npm run lint",
+    "build": "tsc -p ./tsconfig.json && webpack --config webpack.config.js",
+    "build:test": "npm run build && webpack --config webpack.test.config.js",
+    "test": "npm run build:test && karma start"
   },
   "author": "Kevin Greene <hightimesteddy@gmail.com>",
   "files": [
-    "dist/main/",
+    "dist/main",
     "dist/bundles"
   ],
   "keywords": [
@@ -30,15 +31,15 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/chai": "3.4.34",
-    "@types/mocha": "2.2.39",
-    "babel-core": "6.24.1",
-    "babel-loader": "7.0.0",
-    "babel-preset-es2015": "6.24.1",
-    "chai": "3.5.0",
-    "karma": "1.6.0",
-    "karma-mocha": "1.3.0",
-    "karma-phantomjs-launcher": "1.0.4",
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.39",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "chai": "^3.5.0",
+    "karma": "^1.6.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-mocha": "^1.3.0",
     "mocha": "^3.2.0",
     "puppeteer": "^0.12.0",
     "tslint": "^5.8.0",

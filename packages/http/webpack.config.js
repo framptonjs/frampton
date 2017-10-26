@@ -3,13 +3,13 @@ const { resolve } = require('path');
 module.exports = {
 
   entry: {
-    'io': './dist/main/index.js'
+    'http': './dist/main/index.js'
   },
 
   output: {
     filename: '[name].js',
     path: resolve('dist/bundles'),
-    library: '@frampton/routing',
+    library: '@frampton/http',
     libraryTarget: 'commonjs2'
   },
 

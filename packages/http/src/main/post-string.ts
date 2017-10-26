@@ -1,5 +1,5 @@
-import { curry, isObject, Curried2Result, Task } from '@frampton/core';
-import post from './post';
+import { Curried2Result, curry, isObject, Task } from '@frampton/core';
+import { postRequest } from './post';
 import { queryString } from './utils';
 
 /**
@@ -12,12 +12,12 @@ import { queryString } from './utils';
  * @param {Object} data Data to send with request
  * @returns {Frampton.Data.Task}
  */
-export default curry((url: string, data: any) => {
+export const postString = curry((url: string, data: any = null) => {
   if (isObject(data)) {
     data = queryString(data);
   }
 
-  return post(url, (data || null), {
-    'Content-Type' : 'application/x-www-form-urlencoded'
+  return postRequest(url, null, {
+    'Content-Type' : 'application/x-www-form-urlencoded',
   });
 });

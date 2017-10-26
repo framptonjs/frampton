@@ -1,5 +1,5 @@
 import { memoize } from './memoize';
 
-export default memoize(function uri_decode(str: string): string {
+export const uriDecode = memoize((str: string): string => {
   return decodeURIComponent(str);
 });

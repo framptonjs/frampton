@@ -1,4 +1,4 @@
-import { Env } from '@frampton/core';
+import { FRAMPTON_ENV } from '@frampton/core';
 
 
 function createMockLocation(): Location {
@@ -20,7 +20,7 @@ function createMockLocation(): Location {
 
 
 export default function location_api(): Location {
-  if (!window || Env.isTest()) {
+  if (!window || FRAMPTON_ENV.isTest()) {
     return createMockLocation();
   } else {
     return window.location;

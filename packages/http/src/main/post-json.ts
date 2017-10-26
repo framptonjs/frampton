@@ -1,5 +1,5 @@
-import { curry, isObject, Curried2Result, Task } from '@frampton/core';
-import post from './post';
+import { Curried2Result, curry, isObject, Task } from '@frampton/core';
+import { postRequest } from './post';
 
 /**
  * Perform an AJAX POST request and return an EventStream that reports the progress.
@@ -11,12 +11,12 @@ import post from './post';
  * @param {Object} data Data to send with request
  * @returns {Frampton.Data.Task}
  */
-export default curry((url: string, data: any) => {
+export const postJSON = curry((url: string, data: any = null) => {
   if (isObject(data)) {
     data = JSON.stringify(data);
   }
 
-  return post(url, (data || null), {
-    'Content-Type' : 'application/json'
+  return postRequest(url, data, {
+    'Content-Type' : 'application/json',
   });
 });

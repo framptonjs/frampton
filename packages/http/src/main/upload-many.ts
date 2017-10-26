@@ -1,10 +1,10 @@
-import { curry, Curried2Result, Task } from '@frampton/core';
-import post from './post';
+import { Curried2Result, curry, Task } from '@frampton/core';
+import { postRequest } from './post';
 
-export default curry(function upload(url: string, files: Array<File>) {
+export const uploadMany = curry((url: string, files: Array<File>) => {
   const formData = new FormData();
-  for (let i=0; i<files.length; i++) {
+  for (let i = 0; i < files.length; i++) {
     formData.append('file-' + i, files[i]);
   }
-  return post(url, formData);
+  return postRequest(url, formData);
 });

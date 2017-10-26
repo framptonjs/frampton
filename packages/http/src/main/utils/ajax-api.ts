@@ -158,7 +158,7 @@ class MockAjax implements XMLHttpRequest {
  * @memberof Frampton.IO.Http
  * @returns {Object} Instance of XMLHttpRequest for current environment
  */
-export default function ajax_api(): XMLHttpRequest {
+export function httpRequest(): XMLHttpRequest {
   if (FRAMPTON_ENV.isTest()) {
     return new MockAjax();
   } else {

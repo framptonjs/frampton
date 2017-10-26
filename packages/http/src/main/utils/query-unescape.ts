@@ -4,8 +4,8 @@ import {
 } from '@frampton/core'
 
 import { memoize } from './memoize';
-import uriDecode from './uri-decode';
+import { uriDecode } from './uri-decode';
 
-export default memoize(function query_unescape(str: string): string {
+export const queryUnescape = memoize((str: string): string => {
   return join(' ', split('+', uriDecode(str)));
 });

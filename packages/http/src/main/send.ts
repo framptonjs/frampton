@@ -1,11 +1,8 @@
 import { Logging, Task } from '@frampton/core';
-import AjaxApi from './utils/ajax-api';
 import { makeResponse } from './response';
-import { Request } from './request'
-
-export interface RequestSettings {
-  timeout: number;
-}
+import { Request } from './types';
+import { RequestSettings } from './types';
+import { httpRequest } from './utils/ajax-api';
 
 /**
  * Perform an AJAX request and return an EventStream that reports the progress.
@@ -17,8 +14,8 @@ export interface RequestSettings {
  * @param {Object} request  A hash describing the request to be made
  * @returns {Frampton.Task} An EventStream of Response objects
  */
-export default function send(settings: RequestSettings, request: Request) {
-  const xhr: XMLHttpRequest = AjaxApi();
+export function send(settings: RequestSettings, request: Request) {
+  const xhr: XMLHttpRequest = httpRequest();
 
   return Task.create((sinks) => {
 
@@ -33,35 +30,37 @@ export default function send(settings: RequestSettings, request: Request) {
     }
 
     xhr.addEventListener('error', (err: any) => {
-      Logging.error('Processing ' + request.method + ' for: ' + request.url);
+      Logging.error(`Processing ${request.method} for: ${request.url}`);
       sinks.reject(makeResponse('error', 0, err.message));
     });
 
     xhr.addEventListener('timeout', (err: any) => {
-      Logging.error('Timeout ' + request.method + ' for: ' + request.url);
+      Logging.error(`Timeout ${request.method} for: ${request.url}`);
       sinks.reject(makeResponse('error', 0, 'timeout'));
     });
 
     xhr.addEventListener('load', (evt: Event) => {
       const target: XMLHttpRequest = evt.target as XMLHttpRequest;
-      var response;
+      let response;
 
       try {
         response = JSON.parse(target.response);
-      } catch(e) {
+      } catch (e) {
         response = target.response;
       }
 
       if (target.status >= 200 && target.status < 300) {
         sinks.resolve(makeResponse('success', 1, response));
       } else {
-        Logging.error('Non-200 response ' + request.method + ' for: ' + request.url);
+        Logging.error(`Non-200 response ${request.method} for: ${request.url}`);
         sinks.reject(makeResponse('error', 0, response));
       }
     });
 
-    for (let key in request.headers) {
-      xhr.setRequestHeader(key, request.headers[key]);
+    for (const key in request.headers) {
+      if (request.headers.hasOwnProperty(key)) {
+        xhr.setRequestHeader(key, request.headers[key]);
+      }
     }
 
     xhr.timeout = settings.timeout;

@@ -29,39 +29,38 @@ function mapAttrs<A,B>(fn: EventMapping<A,B>, attrs: Attributes<A>): Attributes<
 }
 
 
-export const map: <A,B>(fn: EventMapping<A,B>, node: Html<A>) => Html<B> =
-  cachedNode(function <A,B>(fn: EventMapping<A,B>, node: Html<A>): Html<B> {
-    switch (node.type) {
-      case NodeType.NODE:
-        return {
-          type: NodeType.NODE,
-          tag: node.tag,
-          attrs: mapAttrs(fn, node.attrs),
-          children: node.children.map((child: Html<A>): Html<B> => {
-            return map(fn, child);
-          }),
-          domNode: node.domNode
-        };
+export function map<A,B>(fn: EventMapping<A,B>, node: Html<A>): Html<B> {
+  switch (node.type) {
+    case NodeType.NODE:
+      return {
+        type: NodeType.NODE,
+        tag: node.tag,
+        attrs: mapAttrs(fn, node.attrs),
+        children: node.children.map((child: Html<A>): Html<B> => {
+          return map(fn, child);
+        }),
+        domNode: node.domNode
+      };
 
-      case NodeType.KEYED_NODE:
-        return {
-          type: NodeType.KEYED_NODE,
-          tag: node.tag,
-          attrs: mapAttrs(fn, node.attrs),
-          children: node.children.map((child: VKeyedChild<A>): VKeyedChild<B> => {
-            return <VKeyedChild<B>>map(fn, child);
-          }),
-          domNode: node.domNode
-        };
+    case NodeType.KEYED_NODE:
+      return {
+        type: NodeType.KEYED_NODE,
+        tag: node.tag,
+        attrs: mapAttrs(fn, node.attrs),
+        children: node.children.map((child: VKeyedChild<A>): VKeyedChild<B> => {
+          return <VKeyedChild<B>>map(fn, child);
+        }),
+        domNode: node.domNode
+      };
 
-      case NodeType.KEYED_CHILD:
-        return {
-          type: NodeType.KEYED_CHILD,
-          key: node.key,
-          node: <RootNode<B>>map(fn, node.node)
-        };
+    case NodeType.KEYED_CHILD:
+      return {
+        type: NodeType.KEYED_CHILD,
+        key: node.key,
+        node: <RootNode<B>>map(fn, node.node)
+      };
 
-      default:
-        return node;
-    }
-  });
+    default:
+      return node;
+  }
+}

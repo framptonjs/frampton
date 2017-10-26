@@ -5,10 +5,9 @@ import {
   join,
 } from '@frampton/core';
 
-import queryEscape from './query-escape';
+import { queryEscape } from './query-escape';
 
 function encode(prefix: string, obj: any, add: any): void {
-
   if (isArray(obj)) {
 
     for (let i=0;i<obj.length;i++) {
@@ -37,9 +36,8 @@ function encode(prefix: string, obj: any, add: any): void {
   }
 }
 
-export default function query_string(args: Array<string>) {
-
-  var params: Array<string> = [];
+export function queryString(args: Array<string>) {
+  const params: Array<string> = [];
 
   function add(key: string, value: string): void {
     if (isSomething(value)) {
