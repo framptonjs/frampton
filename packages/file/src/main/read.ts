@@ -1,10 +1,10 @@
 import { Task } from '@frampton/core';
 import { fileReader } from './read-api';
 import { makeResponse } from './response';
-import { ReadMethod } from './types';
+import { ReadMethod, Response } from './types';
 
 // read :: String -> File -> Task Response
-export function read(method: ReadMethod, file: File) {
+export function read(method: ReadMethod, file: File): Task<any, Response, Response> {
 
   return Task.create((sinks) => {
 

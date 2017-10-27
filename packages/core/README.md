@@ -4,6 +4,12 @@ Frampton is a library to assist writing JavaScript in a functional manner. Framp
 
 Frampton is written in Typescript and I believe functional programming is a nicer experience when strongly typed.
 
+## Install
+
+```sh
+$ npm install --save @frampton/core
+```
+
 
 ## Frampton.Data
 
@@ -14,7 +20,7 @@ Frampton.Data module exposes a few abstract data types that make working functio
 
 A Signal is a value that changes over time. Signals provide methods to alter their values or to be alerted to the changing state of those values.
 
-```
+```typescript
 import { Signal } from '@frampton/core';
 ```
 
@@ -22,7 +28,7 @@ import { Signal } from '@frampton/core';
 
 Creates a new Signal
 
-```
+```typescript
 // create a new signal
 const sig: Signal<number> =
   Signal.create<number>();
@@ -36,7 +42,7 @@ const sig2: Signal<number> =
 
 Be alerted to values on the signal. The onValue method will be called any time a new value is pushed onto the Signal. The onValue method will be called immediately if the Signal already has a value.
 
-```
+```typescript
 sig2.onValue((val: number): void => {
   console.log('value = ' + val);
 });
@@ -46,7 +52,7 @@ sig2.onValue((val: number): void => {
 
 The onNext method is almost identical to the onValue method except it will never be called immediately it will wait until the next value is pushed onto the Signal.
 
-```
+```typescript
 sig2.onNext((val: number): void => {
   console.log('next = ' + val);
 });
@@ -56,7 +62,7 @@ sig2.onNext((val: number): void => {
 
 The onChange method is like onValue except it will only alert you for new values that are strictly not equal to the previous value on the Signal.
 
-```
+```typescript
 sig2.onChange((val: number): void => {
   console.log('changes = ' + val);
 });
@@ -66,7 +72,7 @@ sig2.onChange((val: number): void => {
 
 There are two ways to push values onto a Signal. With the static push method and the instance push method. The static method is curried. It is useful for when you want to pass a function to update a Signal to another context.
 
-```
+```typescript
 // Using the instance method.
 sig2.push(5);
 
@@ -84,7 +90,7 @@ pushToSig(6);
 
 Returns the current value of the Signal.
 
-```
+```typescript
 sig2.get();
 ```
 
@@ -94,7 +100,7 @@ Returns a new Signal that only contains values from the parent Signal that satis
 
 If you pass a non-function value to this method it will check for strict equality with that value.
 
-```
+```typescript
 const greaterThanFive: Signal<number> =
   sig2.filter((val) => val > 5);
 
@@ -109,7 +115,7 @@ Filters values on the Signal with the previous value.
 
 This is how onChange is implemented.
 
-```
+```typescript
 const changes: Signal<number> =
   sig2.filterPrevious((prevValue: number, nextValue: number): boolean => {
     return prevValue !== nextValue;
@@ -122,7 +128,7 @@ Returns a new Signal with the values of the parent Signal transformed with the g
 
 If you pass a non-function value to the map function values on the parent Siganl will be replaced in the new Signal with the given value.
 
-```
+```typescript
 const plusOne: Signal<number> =
   sig2.map((val: number): number => val + 1);
 
@@ -135,7 +141,7 @@ const fives: Signal<number> =
 
 Filters a Signal with another Signal. Values will only continue from the parent Signal to the new child Signal if the argument Signal currently has a truthy value.
 
-```
+```typescript
 const conditionMet: Signal<number> =
   sig2.and(sig);
 ```
@@ -144,7 +150,7 @@ const conditionMet: Signal<number> =
 
 Filters a Signal with another Signal. Values will only continue from the parent Signal to the new child Signal if the argument Signal currently has a falsy value.
 
-```
+```typescript
 const notCondition: Signal<number> =
   sig2.not(sig);
 ```
@@ -153,7 +159,7 @@ const notCondition: Signal<number> =
 
 Any time a new value is pushed onto the parent Signal the new child Signal will take the value of the argument Signal.
 
-```
+```typescript
 const replace: Signal<number> =
   sig2.sample(sig);
 ```
@@ -162,7 +168,7 @@ const replace: Signal<number> =
 
 Creates a new Signal containing values from multiple Signals. The instance method combines the parent with one other Signal. The static method can merge n number of Signals into one.
 
-```
+```typescript
 // Instance method
 const bothSignals: Signal<number> =
   sig2.merge(sig);
@@ -176,7 +182,7 @@ const merged: Signal<number> =
 
 Returns a new Signal by combining the values of two Signals into a tuple.
 
-```
+```typescript
 const tupleSignal: Signal<[number,number]> =
   sig2.zip(sig);
 ```
@@ -185,7 +191,7 @@ const tupleSignal: Signal<[number,number]> =
 
 Works like reduce on Arrays. Combines all values that occur on the parent Signal into a single value.
 
-```
+```typescript
 // This counts how many times sig2 is called
 const counter: Signal<number> =
   sig2.fold((acc: number, next: number): number => {
@@ -197,7 +203,7 @@ const counter: Signal<number> =
 
 Returns a new Signal that limits the number of times the value can be updated per given milliseconds.
 
-```
+```typescript
 // This counts how many times sig2 is called
 const rateLimited: Signal<number> =
   sig2.debounce(1000);
@@ -208,7 +214,7 @@ const rateLimited: Signal<number> =
 
 A Result is used to represent values that can be the result of successful or failed computations. It is analogous to Either in some functional programming languages. Result has two subclasses, Success and Failure.
 
-```
+```typescript
 import { Result, Success, Failure } from '@frampton/core';
 ```
 
@@ -216,7 +222,7 @@ import { Result, Success, Failure } from '@frampton/core';
 
 Creates a new instance of a Success.
 
-```
+```typescript
 const success: Success<number> =
   Result.success(5);
 ```
@@ -225,7 +231,7 @@ const success: Success<number> =
 
 Creates a new instance of a Failure.
 
-```
+```typescript
 const failure: Failure<number> =
   Result.failure(8);
 ```
@@ -236,7 +242,7 @@ Creates a Result from a function that may throw an error.
 
 This method is static and curried.
 
-```
+```typescript
 const wrappedFn: Result<number,string> =
   Result.fromThrowable((num) => {
     if (num > 5) {
@@ -271,7 +277,7 @@ testSix(2); // -> 'Failure(Second too small)'
 
 Creates a new Result by mapping Success values, Failures are ignored.
 
-```
+```typescript
 // map successful values
 const mapping =
   (val: number): number => val + 5;
@@ -287,7 +293,7 @@ const mappedFailure: Failure<number> =
 
 Creates a new Result by mapping Failure values, Successes are ignored.
 
-```
+```typescript
 const mapping =
   (val: number): number => val + 3;
 
@@ -302,7 +308,7 @@ const mappedFailure: Failure<number> =
 
 Creates a new Result by filtering Successes. Successes become Failures if they fail predicate. Failures are ignored.
 
-```
+```typescript
 const predicate =
   (val: number): number => val > 10;
 
@@ -317,7 +323,7 @@ const filteredFailure: Failure<number> =
 
 Runs a different callback for Success or Failure and returns the result.
 
-```
+```typescript
 const onSuccess =
   (val: number): number => val + 3;
 
@@ -338,7 +344,7 @@ A Maybe is used to represent a value that may be null or undefined. This gives y
 
 In Frampton Maybes are an interface that is implemented by Just and Nothing. Here we're using Haskell naming conventions. A Just represents a value and a Nothing is a missing value.
 
-```
+```typescript
 import { Maybe } from '@frampton/core';
 ```
 
@@ -346,7 +352,7 @@ import { Maybe } from '@frampton/core';
 
 A static method that creates new Maybes. Returns a Nothing if the given value is null or undefined, otherwise it returns a Just.
 
-```
+```typescript
 const maybeOne: Maybe<number> =
   Maybe.fromNullable(1); // -> 'Just(1)'
 
@@ -358,7 +364,7 @@ const maybeNothing: Maybe<number> =
 
 Creates a new Just.
 
-```
+```typescript
 cosnt maybeFive: Maybe<number> =
   Maybe.just(5); // -> 'Just(5)'
 ```
@@ -367,7 +373,7 @@ cosnt maybeFive: Maybe<number> =
 
 Creates a new Nothing.
 
-```
+```typescript
 cosnt maybeNull: Maybe<number> =
   Maybe.nothing<number>(); // -> 'Nothing'
 ```
@@ -376,7 +382,7 @@ cosnt maybeNull: Maybe<number> =
 
 Returns a new Maybe by transforming the value inside of a Just, Nothings are ignored.
 
-```
+```typescript
 const mapping =
   (val: number): number => val + 2;
 
@@ -389,7 +395,7 @@ const updatedNothing: Maybe<number> =
 
 #### filter
 
-```
+```typescript
 // filter the value of a Maybe
 const predicate =
   (val: number): boolean => val > 2;
@@ -408,7 +414,7 @@ const filteredNothing: Maybe<number> =
 
 Returns a new Maybe that removes one level of nesting in nested Maybes.
 
-```
+```typescript
 const nested: Maybe<Maybe<number>> =
   Maybe.create(Mabye.create(5)); // -> 'Just(Just(5))'
 
@@ -427,7 +433,7 @@ cosnt doubleFlattened: Maybe<Mabye<number>> =
 
 Returns the current value of a Maybe, throws an error if Nothing.
 
-```
+```typescript
 // get the value from a Maybe
 const one: number =
   maybeOne.get(); // -> 1
@@ -440,7 +446,7 @@ const nothing: number =
 
 Returns current value or returns provided default in case of a Nothing.
 
-```
+```typescript
 const safeOne: number =
   maybeOne.getOrElse(5); // -> 1
 
@@ -455,7 +461,7 @@ A Task is essentially an IO monad. Use it to wrap IO operations that may fail. T
 
 Tasks are lazy. A Task can be described without being run.
 
-```
+```typescript
 import { Task } from '@frampton/core';
 ```
 
@@ -465,7 +471,7 @@ Creates a new Task. A Task is essentially a wrapper for a function. The create m
 
 The interface for the TaskSinks object.
 
-```
+```typescript
 interface TaskSinks<E,V,P> {
   reject(err: E): void;
   resolve(val: V): void;
@@ -473,7 +479,7 @@ interface TaskSinks<E,V,P> {
 }
 ```
 
-```
+```typescript
 const waitTwoSeconds: Task<Error,string,never> =
   Task.create((sinks: TaskSinks<Error,string,never>) => {
     setTimeout(() => {
@@ -497,7 +503,7 @@ waitTwoSeconds.run({
 
 Creates a new Task by filtering the results of the parent Task. If the result of a Task fails the predicate a reject becomes a resolve.
 
-```
+```typescript
 const random: Task<number,number,never> =
   Task.create((sinks) => {
     sinks.resolve(Math.random() * 100);
@@ -511,7 +517,7 @@ const randomOverFifty: Task<number,number,never> =
 
 Creates a new Task that transforms the resolve values of the parent Task.
 
-```
+```typescript
 // After 2 seconds emits a 5.
 const delayedFive: Task<Error,number,never> =
   waitTwoSeconds.map(5);
@@ -527,7 +533,7 @@ const delayedFunc: Task<Error,string,never> =
 
 Creates a new Task that runs two Tasks in sequence. The results of the first Task are disgaurded.
 
-```
+```typescript
 const waitFourSeconds: Task<Error,string,never> =
   waitTwoSeconds.concat(waitTwoSeconds);
 ```
@@ -536,7 +542,7 @@ const waitFourSeconds: Task<Error,string,never> =
 
 Creates a new Task that chains two Tasks together. The chain method takes a function that takes the successful value of the previous Task and returns a new Task.
 
-```
+```typescript
 const getResults =
   (query: string): Task<Error,Array<string>,never> =>
     Task.create((sinks) => {
@@ -572,7 +578,7 @@ const getAndDisplay =
 
 Creates a new Task that can never fail, any rejects will be mapped to resolves by the provided function.
 
-```
+```typescript
 const httpGet =
   (url: string): Task<Error,any,never> =>
     Task.create((sinks) => {
@@ -596,7 +602,7 @@ const neverFailRequest: Task<never,any,never> =
 
 Creates a new Task that can never fail, any rejects are replaced as resolves with the provided value.
 
-```
+```typescript
 // Or, just supply a default value for failure
 const neverFailRequest: Task<never,any,never> =
   httpGet('http://fake.com/api/posts').default([]);
@@ -606,7 +612,7 @@ const neverFailRequest: Task<never,any,never> =
 
 Creates a new Task that runs n Tasks in parallel.
 
-```
+```typescript
 Task.when(/* tasks to run */).run(...);
 ```
 
@@ -614,7 +620,7 @@ Task.when(/* tasks to run */).run(...);
 
 Creates a new Task that runs n Tasks in sequence.
 
-```
+```typescript
 Task.sequence(/* tasks to run */).run(...);
 ```
 
@@ -622,6 +628,6 @@ Task.sequence(/* tasks to run */).run(...);
 
 Creates a new Task that runs n Tasks in sequence. The difference with sequence is that the provided sinks will be updated after every child Task completes its work.
 
-```
+```typescript
 Task.batch(/* tasks to run */).run(...);
 ```

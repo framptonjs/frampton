@@ -7,11 +7,8 @@ A library for working with browser history in a more functional manner.
 
 Frampton is a collection of small peer-dependant libraries.
 
-```
-> npm install --save @frampton/core
-> npm install --save @frampton/style
-> npm install --save @frampton/events
-> npm install --save @frampton/history
+```sh
+$ npm install --save @frampton/history
 ```
 
 
@@ -22,7 +19,7 @@ Frampton-history exposes observables for monitoring the state of the browser loc
 
 ### Signals
 
-```
+```typescript
 import { location, path, search, hash } from '@frampton/history';
 ```
 
@@ -30,7 +27,7 @@ import { location, path, search, hash } from '@frampton/history';
 
 The location Signal will update anytime the browser location changes.
 
-```
+```typescript
 location.onValue((loc: Location): void => {
   // Here code can respond to changes
 });
@@ -40,7 +37,7 @@ location.onValue((loc: Location): void => {
 
 The path Signal will update anytime the pathname of the location changes.
 
-```
+```typescript
 path.onValue((pathname: string): void => {
   // Here code can respond to changes
 });
@@ -50,7 +47,7 @@ path.onValue((pathname: string): void => {
 
 The search Signal will update anytime the browser query string changes.
 
-```
+```typescript
 search.onValue((query: string): void => {
   // Here code can respond to changes
 });
@@ -60,7 +57,7 @@ search.onValue((query: string): void => {
 
 The hash Signal will update anytime the url hash changes.
 
-```
+```typescript
 hash.onValue((hashname: string): void => {
   // Here code can respond to changes
 });
@@ -71,7 +68,7 @@ hash.onValue((hashname: string): void => {
 
 When working with @frampton/history it is suggested to use the provided methods for working with browser history. Frampton maintains some internal state that will get out of sync with the browser if using the native methods.
 
-```
+```typescript
 import {
   pushState,
   replacePath,
@@ -85,7 +82,7 @@ import {
 
 Add a new history entry to the browser.
 
-```
+```typescript
 pushState({}, 'home_path', '/home');
 ```
 
@@ -93,7 +90,7 @@ pushState({}, 'home_path', '/home');
 
 Change the current browser path by replacing the current history entry.
 
-```
+```typescript
 replacePath('/home');
 ```
 
@@ -101,7 +98,7 @@ replacePath('/home');
 
 Replace the current history state of the browser.
 
-```
+```typescript
 replaceState({}, 'home_path', '/home');
 ```
 
@@ -109,7 +106,7 @@ replaceState({}, 'home_path', '/home');
 
 Change the current url hash.
 
-```
+```typescript
 setHash('home');
 ```
 
@@ -117,6 +114,6 @@ setHash('home');
 
 Change the current browser path by adding new history entry.
 
-```
+```typescript
 setPath('/user/1');
 ```

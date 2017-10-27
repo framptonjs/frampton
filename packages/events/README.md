@@ -5,17 +5,15 @@ Frampton-events is a library written in TypeScript for working with events in th
 
 ## Installation
 
-```
-> npm install --save @frampton/core
-> npm install --save @frampton/dom
-> npm install --save @frampton/events
+```sh
+$ npm install --save @frampton/events
 ```
 
 ## Usage
 
-Frampton-events is exposed as a commonJS module.
+Frampton-Events is exposed as a commonJS module.
 
-```
+```typescript
 import * as Events from '@frampton/events';
 ```
 
@@ -25,7 +23,7 @@ There are three methods for creating event streams exposed by frampton-events. T
 
 The underlying event stream is a Frampton.Data.Signal. Checkout @frampton/core for more information.
 
-```
+```typescript
 import { onEvent } from '@frampton/events';
 
 
@@ -37,7 +35,7 @@ const clicks: Signal<Event> =
 
 From here we can listen for events.
 
-```
+```typescript
 clicks.onValue((evt: Event): void => {
   // do something
 });
@@ -49,7 +47,7 @@ We can map events. There are a few utils provided for common transformations.
 
 Get the value of the event target.
 
-```
+```typescript
 import { onEvent, eventValue } from '@frampton/events';
 
 
@@ -64,7 +62,7 @@ We can also filter events.
 
 With this filter the event only continues on the stream if the event target contains an element matching the given selector.
 
-```
+```typescript
 import { onEvent, containsSelector } from '@frampton/events';
 
 
@@ -77,7 +75,7 @@ const inputValues: Signal<Event> =
 
 A common need is debouncing events. One of many methods on Frampton.Data.Signal.
 
-```
+```typescript
 import { onEvent } from '@frampton/events';
 
 
@@ -93,7 +91,7 @@ We can also listen for events based on CSS selector.
 
 This will be a stream of events on all elements matching the given selector.
 
-```
+```typescript
 import { onSelector } from '@frampton/events';
 
 
@@ -106,7 +104,7 @@ const clicks: Signal<Event> =
 
 You can also listen for events on objects other than HTMLElements. This method will allow you to listen for events on any object that provides a method for listening to events, either through a method called 'on' or a method called 'addEventListener'. This will work with jQuery elements.
 
-```
+```typescript
 import { onCustom } from '@frampton/events';
 
 
@@ -122,7 +120,7 @@ As previously seen there are provided utils for working with events.
 
 Gets the element closest to event target (closest parent) that matches given selector.
 
-```
+```typescript
 import { onSelector, closestToEvent } from '@frampton/events';
 
 
@@ -135,7 +133,7 @@ const elements: Signal<HTMLElement> =
 
 Returns a boolean indicating if the event target contains an element matching the given selector. Also returns true if the event target matches the selector.
 
-```
+```typescript
 import { onSelector, containsSelector } from '@frampton/events';
 
 
@@ -148,7 +146,7 @@ const clicks: Signal<Event> =
 
 Returns a boolean indicating if the event target contains the given element.
 
-```
+```typescript
 import { onSelector, contains } from '@frampton/events';
 
 
@@ -165,7 +163,7 @@ const clicks: Signal<Event> =
 
 Returns the target element of event object.
 
-```
+```typescript
 import { onSelector, eventTarget } from '@frampton/events';
 
 
@@ -178,7 +176,7 @@ const elements: Signal<EventTarget> =
 
 Returns the value of the event target.
 
-```
+```typescript
 import { isSomething } from '@frampton/core';
 import { onSelector, eventValue } from '@frampton/events';
 
@@ -193,7 +191,7 @@ const inputValues: Signal<string> =
 
 Returns boolean indicating if event target matches given selector.
 
-```
+```typescript
 import { onSelector, hasSelector } from '@frampton/events';
 
 
@@ -206,7 +204,7 @@ const activeClicks: Signal<Event> =
 
 Calls preventDefault and stopPropagation on event object.
 
-```
+```typescript
 import { onSelector, preventDefault } from '@frampton/events';
 
 
@@ -219,7 +217,7 @@ const submitClicks: Signal<Event> =
 
 Returns a boolean indicating if the event target is contained inside an element matching given selector.
 
-```
+```typescript
 import { onSelector, selectorContains } from '@frampton/events';
 
 
@@ -232,7 +230,7 @@ const activeClicks: Signal<Event> =
 
 Calls stopPropagation on event object.
 
-```
+```typescript
 import { onSelector, stopPropagation } from '@frampton/events';
 
 
