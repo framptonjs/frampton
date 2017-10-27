@@ -27,7 +27,7 @@ class MockReader implements FileReader {
 
   constructor() {
     this.listeners = {};
-    this.readTime = ((Math.random() * 3000) + 300);
+    this.readTime = ((Math.random() * 500) + 300);
     this.progress = 0;
     this.timeout = 10000;
   }

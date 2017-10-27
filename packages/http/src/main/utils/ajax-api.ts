@@ -50,7 +50,7 @@ class MockAjax implements XMLHttpRequest {
     this.url = '';
     this.listeners = {};
     this.headers = {};
-    this.requestTime = ((Math.random() * 1000) + 300);
+    this.requestTime = ((Math.random() * 500) + 300);
     this.progress = 0;
     this.timeout = 10000;
   }
