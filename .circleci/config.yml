@@ -9,8 +9,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - attach_workspace:
-          at: ./
       - run:
           name: npm-install
           command: npm install
@@ -23,7 +21,7 @@ jobs:
 
 workflows:
   version: 2
-  build_test:
+  build_and_test:
       jobs:
         - test:
             filters:
