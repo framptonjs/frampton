@@ -1,7 +1,9 @@
 defaults: &defaults
   working_directory: ~/frampton
   docker:
-    - image: circleci/node:8.8.0
+    - image: circleci/node:8.8.0-browsers
+      environment:
+          CHROME_BIN: "/usr/bin/google-chrome"
 
 version: 2
 jobs:
