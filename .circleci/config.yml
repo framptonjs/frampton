@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/frampton
   docker:
-    - image: circleci/node:6.10.3
+    - image: circleci/node:8.8.0
 
 version: 2
 jobs:
