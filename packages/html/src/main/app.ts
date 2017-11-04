@@ -2,57 +2,57 @@ import { Effect, Signal, Task } from '@frampton/core';
 import { Html } from './elements';
 import { scene, Scheduler } from './scene';
 
-export type StateAndEffect<S, M> =
-  [ S, Effect<M> ];
+export type StateAndEffect<State, Message> =
+  [ State, Effect<Message> ];
 
-export interface AppConfig<S, M> {
-  inputs: Array<Signal<M>>;
+export interface AppConfig<State, Message> {
+  inputs: Array<Signal<Message>>;
   rootElement: Element;
-  update(msg: M, state: S): StateAndEffect<S, M>;
-  view(state: S): Html<M>;
-  init(): StateAndEffect<S, M>;
+  update(msg: Message, state: State): StateAndEffect<State, Message>;
+  view(state: State): Html<Message>;
+  init(): StateAndEffect<State, Message>;
 }
 
-export function app<S, M>(config: AppConfig<S, M>): Signal<S> {
+export function app<State, Message>(config: AppConfig<State, Message>): Signal<State> {
 
-  function update(acc: StateAndEffect<S, M>, next: M) {
-    const model: S = acc[0];
+  function update(acc: StateAndEffect<State, Message>, next: Message) {
+    const model: State = acc[0];
     return config.update(next, model);
   }
 
-  const messages: Signal<M> =
-    Signal.create<M>();
+  const messages: Signal<Message> =
+    Signal.create<Message>();
 
-  const initialState: StateAndEffect<S, M> =
+  const initialState: StateAndEffect<State, Message> =
     config.init();
 
-  const inputs: Array<Signal<M>> =
+  const inputs: Array<Signal<Message>> =
     (config.inputs || []);
 
-  const allInputs: Signal<M> =
-    Signal.merge<M>(messages, ...inputs);
+  const allInputs: Signal<Message> =
+    Signal.merge<Message>(messages, ...inputs);
 
-  const stateAndTasks: Signal<StateAndEffect<S, M>> =
+  const stateAndTasks: Signal<StateAndEffect<State, Message>> =
     allInputs.fold(update, initialState);
 
-  const state: Signal<S> =
-    stateAndTasks.map((next: StateAndEffect<S, M>) => {
+  const state: Signal<State> =
+    stateAndTasks.map((next: StateAndEffect<State, Message>) => {
       return next[0];
     });
 
-  const initialView: Html<M> =
+  const initialView: Html<Message> =
     config.view(initialState[0]);
 
-  const schedule: Scheduler<M> =
+  const schedule: Scheduler<Message> =
     scene(config.rootElement, initialView, Signal.push(messages));
 
-  const html: Signal<Html<M>> =
+  const html: Signal<Html<Message>> =
     state.map((next) => {
       return config.view(next);
     });
 
-  const tasks: Signal<Effect<M>> =
-    stateAndTasks.map((next: StateAndEffect<S, M>) => {
+  const tasks: Signal<Effect<Message>> =
+    stateAndTasks.map((next: StateAndEffect<State, Message>) => {
       return next[1];
     });
 
@@ -60,7 +60,7 @@ export function app<S, M>(config: AppConfig<S, M>): Signal<S> {
   Task.execute(tasks, Signal.push(messages));
 
   // Render state updates
-  html.onValue((tree: Html<M>) => {
+  html.onValue((tree: Html<Message>) => {
     schedule(tree);
   });
 

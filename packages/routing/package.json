@@ -1,8 +1,8 @@
 {
-  "name": "@frampton/file",
+  "name": "@frampton/routing",
   "version": "0.0.13",
   "description": "",
-  "main": "./dist/bundles/file.js",
+  "main": "./dist/bundles/routing.js",
   "module": "./dist/main/index.js",
   "types": "./dist/main/index.d.ts",
   "scripts": {
@@ -31,15 +31,15 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@types/chai": "^3.4.34",
-    "@types/mocha": "^2.2.39",
-    "babel-core": "^6.24.1",
-    "babel-loader": "^7.0.0",
-    "babel-preset-es2015": "^6.24.1",
+    "@types/chai": "3.4.34",
+    "@types/mocha": "2.2.39",
+    "babel-core": "6.24.1",
+    "babel-loader": "7.0.0",
+    "babel-preset-es2015": "6.24.1",
     "chai": "^3.5.0",
-    "karma": "^1.6.0",
+    "karma": "1.6.0",
     "karma-chrome-launcher": "^2.2.0",
-    "karma-mocha": "^1.3.0",
+    "karma-mocha": "1.3.0",
     "mocha": "^3.2.0",
     "puppeteer": "^0.12.0",
     "tslint": "^5.8.0",
@@ -47,6 +47,8 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
-    "@frampton/core": "~0.0.12"
+    "@frampton/core": "~0.0.12",
+    "@frampton/html": "~0.0.12",
+    "@frampton/history": "~0.0.12"
   }
 }
